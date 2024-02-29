@@ -10,7 +10,6 @@ export default function LoginScreen({ navigation }) {
 
         try {
             await SecureStore.setItemAsync('userName', userName);
-            setUserName('');
             navigation.navigate('Home');
         } catch (error) {
             console.log(error);

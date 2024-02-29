@@ -30,16 +30,16 @@ const Navbar = () => {
         <View style={styles.navbarContainer}>
 
             <TouchableOpacity onPress={rediretToHome}>
-                <AntDesign name="home" size={40} color="#057CCB" />
+                <AntDesign name="home" size={35} color="white" />
             </TouchableOpacity>
             <TouchableOpacity onPress={redirectToCity}>
-                <AntDesign name="pluscircleo" size={40} color="#057CCB" />
+                <AntDesign name="pluscircleo" size={35} color="white" />
             </TouchableOpacity>
             <TouchableOpacity onPress={redirectToProfile}>
-                <AntDesign name="user" size={40} color="#057CCB" />
+                <AntDesign name="user" size={35} color="white" />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleLogout}>
-                <AntDesign name="logout" size={40} color="#057CCB" />
+                <AntDesign name="logout" size={35} color="white" />
             </TouchableOpacity>
             
         </View>
@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         width: '100%',
-        height: 60,
-        backgroundColor: 'white',
+        height: 50,
+        backgroundColor: '#057CCB',
     },
 });
 

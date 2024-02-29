@@ -109,6 +109,7 @@ const CityScreen = () => {
                 title="Ajouter la ville"
             />
 
+            <Text>Vos Villes favorites:</Text>
             <FlatList
                 data={cityWeatherData}
                 renderItem={({ item }) => (
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#057CCB',
         alignItems: 'center',
-        // justifyContent: 'center',
+        justifyContent: 'center',
     },
     title: {
         fontSize: 40,

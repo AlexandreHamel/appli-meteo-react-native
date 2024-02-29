@@ -1,4 +1,4 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import LoginScreen from './screens/loginScreen';
 import HomeScreen from './screens/homeScreen';
@@ -9,14 +9,27 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   return (
+
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: 'white',
+          },
+          headerTitleStyle: {
+            color: '#057CCB',
+            fontWeight: 'bold'
+          }
+        }}
+      >
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} screenOptions={{ gestureEnabled: true }} />
         <Stack.Screen name="Favoris" component={CityScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 }
 
