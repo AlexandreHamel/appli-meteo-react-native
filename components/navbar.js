@@ -12,6 +12,10 @@ const Navbar = () => {
         navigation.navigate('Home');
     }
 
+    const redirectToCity = async () => {
+        navigation.navigate('Favoris');
+    }
+
     const redirectToProfile = async () => {
         navigation.navigate('Profile');
     }
@@ -28,7 +32,7 @@ const Navbar = () => {
             <TouchableOpacity onPress={rediretToHome}>
                 <AntDesign name="home" size={40} color="#057CCB" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={''}>
+            <TouchableOpacity onPress={redirectToCity}>
                 <AntDesign name="pluscircleo" size={40} color="#057CCB" />
             </TouchableOpacity>
             <TouchableOpacity onPress={redirectToProfile}>

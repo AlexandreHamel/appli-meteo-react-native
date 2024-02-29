@@ -6,7 +6,7 @@ import * as Location from 'expo-location';
 import * as SecureStore from 'expo-secure-store';
 import Navbar from '../components/navbar';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
 
     const API_KEY = 'fc315393fd10ea889675ba53a3d77684';
 
@@ -20,8 +20,7 @@ const HomeScreen = ({ navigation }) => {
         const getUsername = async () => {
             const userName = await SecureStore.getItemAsync('userName');
             setUserName(userName);
-            console.log('toto');
-            console.log(userName);
+            // console.log(userName);
         };
         getUsername();
     }, []);
@@ -46,7 +45,7 @@ const HomeScreen = ({ navigation }) => {
 
         let currentLocation = await Location.getCurrentPositionAsync({});
         setLocation(currentLocation.coords);
-        console.log(currentLocation.coords);
+        // console.log(currentLocation.coords);
 
         try {
             const reverseGeoUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${currentLocation.coords.latitude}&lon=${currentLocation.coords.longitude}&limit=1&appid=fc315393fd10ea889675ba53a3d77684`;
@@ -66,7 +65,7 @@ const HomeScreen = ({ navigation }) => {
             const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=fr&appid=${API_KEY}`;
             const response = await axios.get(url);
             setWeathers(response.data);
-            console.log(response.data);
+            // console.log(response.data);
         } catch (error) {
             console.error('Error fetching weather:', error);
         }

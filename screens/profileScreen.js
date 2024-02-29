@@ -20,16 +20,13 @@ const ProfileScreen = ({ navigation }) => {
         try {
             await SecureStore.setItemAsync('userName', newName);
             navigation.navigate('Home');
-            console.log(newName);
+            // console.log(newName);
         } catch (error) {
             console.log(error);
         }
     };
 
-
-
     return (
-
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Profile</Text>
             <Text style={styles.text}>Changer de Pseudo:</Text>
@@ -46,7 +43,6 @@ const ProfileScreen = ({ navigation }) => {
             />
             <Navbar />
         </SafeAreaView>
-
     );
 }
 
