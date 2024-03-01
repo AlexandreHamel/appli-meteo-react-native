@@ -17,9 +17,6 @@ const HomeScreen = ({ route }) => {
     const [location, setLocation] = useState(null);
     const [userName, setUserName] = useState('');
 
-    // const userName = SecureStore.getItemAsync('userName');
-    // console.log('test', userName);
-
     useEffect(() => {
         if (city === '') {
             return;
@@ -88,8 +85,7 @@ const HomeScreen = ({ route }) => {
     useEffect(() => {
         const getUsername = async () => {
             const userName = await SecureStore.getItemAsync('userName');
-            // setUserName(userName);
-            console.log(SecureStore.getItemAsync('userName'));
+            setUserName(userName);
         };
         getUsername();
     }, []);

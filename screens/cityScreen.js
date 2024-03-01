@@ -76,7 +76,6 @@ const CityScreen = () => {
             setFavoriteCities(updatedCities);
             await SecureStore.setItemAsync(`${userName}_favoriteCities`, JSON.stringify(updatedCities));
             setCityInput('');
-            console.log(favoriteCities);
         } catch (error) {
             console.error('Error adding city:', error);
         }
@@ -87,7 +86,6 @@ const CityScreen = () => {
             const updatedCities = favoriteCities.filter(city => city !== cityToRemove);
             setFavoriteCities(updatedCities);
             await SecureStore.setItemAsync(`${userName}_favoriteCities`, JSON.stringify(updatedCities));
-            console.log(updatedCities);
         } catch (error) {
             console.error('Error removing city:', error);
         }
