@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Button, FlatList, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Navbar from '../components/navbar';
 import * as SecureStore from 'expo-secure-store';
 import { AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 const CityScreen = () => {
 
     const API_KEY = 'fc315393fd10ea889675ba53a3d77684';
 
+    const navigation = useNavigation();
     const [userName, setUserName] = useState('');
     const [cityInput, setCityInput] = useState('');
     const [favoriteCities, setFavoriteCities] = useState([]);
@@ -85,6 +87,7 @@ const CityScreen = () => {
             const updatedCities = favoriteCities.filter(city => city !== cityToRemove);
             setFavoriteCities(updatedCities);
             await SecureStore.setItemAsync(`${userName}_favoriteCities`, JSON.stringify(updatedCities));
+            console.log(updatedCities);
         } catch (error) {
             console.error('Error removing city:', error);
         }
@@ -94,36 +97,53 @@ const CityScreen = () => {
         return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
     };
 
+    const handleCitySelect = (city) => {
+        navigation.navigate('Home', { city: city });
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Favoris</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={setCityInput}
-                value={cityInput}
-                placeholder='Entrez le nom de la ville'
-            />
-            <Button
-                style={styles.button}
-                onPress={addCity}
-                title="Ajouter la ville"
-            />
+            <Text style={styles.text}>Ajoutez une ville à vos favoris:</Text>
+            <View style={styles.add}>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={setCityInput}
+                    value={cityInput}
+                    placeholder='Entrez le nom de la ville'
+                />
+                <TouchableOpacity onPress={addCity}>
+                    <AntDesign name="pluscircleo" size={35} color="white" />
+                </TouchableOpacity>
+            </View>
 
-            <Text>Vos Villes favorites:</Text>
+            <Text style={styles.text}>Vos Villes favorites:</Text>
+
             <FlatList
                 data={cityWeatherData}
                 renderItem={({ item }) => (
-                    <View style={styles.item}>
-                        <Text>{item.city}</Text>
-                        <Text>{item.temp.toFixed(1)}°C</Text>
-                        <Image 
-                            source={{ uri: getWeatherIconUrl(item.icon) }}
-                            style={{ width: 50, height: 50 }}
-                        />
-                        <TouchableOpacity onPress={() => removeCity(item)}>
-                            <AntDesign name="delete" size={22} color="darkred" />
-                        </TouchableOpacity>
-                    </View>
+
+                    <TouchableOpacity key={item.city} onPress={() => handleCitySelect(item.city)}>
+
+                        <View style={styles.boxFav}>
+                            <View style={styles.itemContent}>
+                                <View style={styles.boxItem}>
+                                    <Text style={styles.itemText}>{item.city}</Text>
+                                    <Text style={styles.itemText}>{item.temp.toFixed(1)}°C</Text>
+                                    <Image
+                                        source={{ uri: getWeatherIconUrl(item.icon) }}
+                                        style={{ width: 70, height: 70 }}
+                                    />
+                                </View>
+                            </View>
+                            <View>
+                                <TouchableOpacity onPress={() => removeCity(item.city)}>
+                                    <AntDesign name="delete" size={22} color="darkred" />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+
+                    </TouchableOpacity>
                 )}
                 keyExtractor={(item, index) => index.toString()}
             />
@@ -148,25 +168,51 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 20,
-        margin: 3,
-    },
-    input: {
-        width: '80%',
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 20,
-        paddingHorizontal: 10,
-        backgroundColor: 'white',
-    },
-    item: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
+        color: 'white',
         marginTop: 10,
+    },
+    add: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    input: {
+        width: '70%',
+        height: 40,
+        borderColor: 'white',
+        borderWidth: 1,
+        borderRadius: 4,
+        margin: 20,
+        paddingHorizontal: 10,
+    },
+    boxFav: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         padding: 20,
+        width: '95%',
+        margin: 5,
+        borderWidth: 2,
+        borderColor: 'white',
+        borderRadius: 10
+    },
+    itemContent: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        width: '90%',
+    },
+    boxItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
         width: '100%',
-        backgroundColor: 'white'
+
+    },
+    itemText: {
+        fontSize: 20,
+        color: 'white',
+        marginRight: 20,
     },
 });
 

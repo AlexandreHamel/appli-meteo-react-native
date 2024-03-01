@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, SafeAreaView, Button, TextInput, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TextInput, View, Image, TouchableOpacity } from 'react-native';
 import * as Location from 'expo-location';
 import * as SecureStore from 'expo-secure-store';
 import Navbar from '../components/navbar';
 import { AntDesign } from '@expo/vector-icons';
 
-const HomeScreen = () => {
+const HomeScreen = ({ route }) => {
 
     const API_KEY = 'fc315393fd10ea889675ba53a3d77684';
 
@@ -17,14 +17,8 @@ const HomeScreen = () => {
     const [location, setLocation] = useState(null);
     const [userName, setUserName] = useState('');
 
-    useEffect(() => {
-        const getUsername = async () => {
-            const userName = await SecureStore.getItemAsync('userName');
-            setUserName(userName);
-            // console.log(userName);
-        };
-        getUsername();
-    }, []);
+    // const userName = SecureStore.getItemAsync('userName');
+    // console.log('test', userName);
 
     useEffect(() => {
         if (city === '') {
@@ -36,6 +30,12 @@ const HomeScreen = () => {
     useEffect(() => {
         getCurrentLocation();
     }, []);
+
+    useEffect(() => {
+        if (route.params && route.params.city) {
+            setCity(route.params.city);
+        }
+    }, [route.params]);
 
     const getCurrentLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -81,6 +81,19 @@ const HomeScreen = () => {
         return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
     };
 
+    const handleCityScreen = (city) => {
+        setCity(city);
+    };
+
+    useEffect(() => {
+        const getUsername = async () => {
+            const userName = await SecureStore.getItemAsync('userName');
+            // setUserName(userName);
+            console.log(SecureStore.getItemAsync('userName'));
+        };
+        getUsername();
+    }, []);
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.welcome}>
@@ -97,9 +110,7 @@ const HomeScreen = () => {
                     <AntDesign name="search1" size={35} color="white" />
                 </TouchableOpacity>
             </View>
-
             <Text style={styles.city}>{city}</Text>
-
             <View style={styles.box}>
                 <Text style={styles.temp}>{weathers ? weathers.main.temp.toFixed(1) : ''}°C</Text>
                 {weathers && weathers.weather && weathers.weather[0] &&
@@ -114,10 +125,7 @@ const HomeScreen = () => {
                 <Text style={styles.min}> {weathers ? weathers.main.temp_min.toFixed(1) : ''}°C</Text>
                 <Text style={{ color: 'white' }}> /</Text>
                 <Text style={styles.max}> {weathers ? weathers.main.temp_max.toFixed(1) : ''}°C</Text>
-
-                {/* <Text style={styles.text}>Humidité: {weathers ? weathers.main.humidity : ''} %</Text> */}
             </View>
-
             <Navbar />
             <StatusBar style="auto" />
         </SafeAreaView>
@@ -133,12 +141,7 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     welcome: {
-        // position: 'absolute',
-        // top: 0,
-        // left: 0,
-        // marginLeft: 16,
         marginTop: 10,
-        // marginBottom:20 ,
     },
     search: {
         flexDirection: 'row',
@@ -146,9 +149,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 10,
         marginBottom: 50,
-        // position: 'absolute',
-        // top: 40,
-
     },
     city: {
         fontSize: 50,
@@ -171,11 +171,11 @@ const styles = StyleSheet.create({
     },
     max: {
         color: 'orange',
-        fontSize: 16,
+        fontSize: 20,
     },
     min: {
         color: 'blue',
-        fontSize: 16,
+        fontSize: 20,
     },
     text: {
         fontSize: 20,

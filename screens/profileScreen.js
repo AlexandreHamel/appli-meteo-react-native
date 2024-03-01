@@ -29,6 +29,7 @@ const ProfileScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>Profile</Text>
+            <Text style={styles.name}>{userName} </Text>
             <Text style={styles.text}>Changer de Pseudo:</Text>
             <TextInput
                 style={styles.input}
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#057CCB',
         alignItems: 'center',
-        // justifyContent: 'center',
+        justifyContent: 'center',
     },
     title: {
         fontSize: 40,
@@ -59,9 +60,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'skyblue'
     },
+    name: {
+        fontSize: 30,
+        color: 'white'
+    },
     text: {
         fontSize: 20,
         margin: 3,
+        color: 'white'
     },
     input: {
         width: '80%',
